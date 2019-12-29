@@ -1,0 +1,8 @@
+
+*/logs
+target/*
+.idea/**
+session/*
+**/uploads/*
+Src/main/webapp/avatar/*
+**/target/**
