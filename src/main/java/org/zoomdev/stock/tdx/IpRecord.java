@@ -1,6 +1,4 @@
-package org.zoomdev.stock.txd;
-
-import java.util.Map;
+package org.zoomdev.stock.tdx;
 
 public interface IpRecord {
     //取得host连接成功数量

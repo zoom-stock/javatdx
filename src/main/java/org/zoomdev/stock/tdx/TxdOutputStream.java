@@ -1,8 +1,7 @@
-package org.zoomdev.stock.txd;
+package org.zoomdev.stock.tdx;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 
 public class TxdOutputStream extends OutputStream {
 
@@ -10,6 +9,10 @@ public class TxdOutputStream extends OutputStream {
 
     public TxdOutputStream(OutputStream outputStream){
         this.outputStream = outputStream;
+    }
+
+    public void flush() throws IOException {
+        this.outputStream.flush();
     }
 
     public void writeShort(int i) throws  IOException{

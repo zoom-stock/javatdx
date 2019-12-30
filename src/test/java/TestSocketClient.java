@@ -1,7 +1,8 @@
 import junit.framework.TestCase;
-import org.zoomdev.stock.txd.BlockStock;
-import org.zoomdev.stock.txd.BlockType;
-import org.zoomdev.stock.txd.TdxClient;
+import org.zoomdev.stock.tdx.BlockStock;
+import org.zoomdev.stock.tdx.BlockType;
+import org.zoomdev.stock.tdx.Market;
+import org.zoomdev.stock.tdx.TdxClient;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -29,8 +30,9 @@ public class TestSocketClient extends TestCase {
         // client.getList(Market.sh,0);
 
 
-        List<BlockStock> blocks= client.getBlockInfo(BlockType.BLOCK_DEFAULT);
-        System.out.println(blocks);
+        System.out.println(client.getStockList(Market.sh,0));
+
+        System.out.println(client.getStockList(Market.sz,0));
     }
 
 

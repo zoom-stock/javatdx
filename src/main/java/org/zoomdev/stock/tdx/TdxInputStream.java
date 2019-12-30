@@ -1,23 +1,22 @@
-package org.zoomdev.stock.txd;
+package org.zoomdev.stock.tdx;
 
 import com.jcraft.jzlib.Inflater;
 import com.jcraft.jzlib.JZlib;
 
 import java.io.*;
-import java.util.Arrays;
 
-public class TxdInputStream extends TypedInputStream {
+public class TdxInputStream extends TypedInputStream {
 
     public static final byte[] EMPTY = new byte[0];
 
     private  InputStream is;
     private byte[] header = new byte[0x10];
 
-    public TxdInputStream(byte[] bytes) {
+    public TdxInputStream(byte[] bytes) {
         super(bytes);
     }
 
-    public TxdInputStream(InputStream is){
+    public TdxInputStream(InputStream is){
         super(EMPTY);
         this.is = is;
     }
@@ -38,13 +37,23 @@ public class TxdInputStream extends TypedInputStream {
     }
 
     public void ensureRead(byte[] cache) throws IOException {
-        ensureRead(cache,0,cache.length);
+
+        int pos = 0;
+        for(int i=0; i < 10; ++i){
+            int readed = ensureRead(cache,pos,cache.length-pos);
+            pos += readed;
+            if(pos >= cache.length){
+                return;
+            }
+        }
+
     }
 
     private int packSize;
     private int uncompressSize;
 
     public void readHeader() throws IOException {
+
         ensureRead(header);
         packSize = HexUtils.readShort(header, 12);
         uncompressSize = HexUtils.readShort(header, 14);

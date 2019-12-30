@@ -1,14 +1,13 @@
-package org.zoomdev.stock.txd.commands;
+package org.zoomdev.stock.tdx.commands;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.zoomdev.stock.txd.HexUtils;
-import org.zoomdev.stock.txd.TxdInputStream;
-import org.zoomdev.stock.txd.TxdOutputStream;
-import org.zoomdev.stock.txd.impl.RecordOutputStream;
+import org.zoomdev.stock.tdx.HexUtils;
+import org.zoomdev.stock.tdx.TdxInputStream;
+import org.zoomdev.stock.tdx.TxdOutputStream;
+import org.zoomdev.stock.tdx.impl.RecordOutputStream;
 
 import java.io.IOException;
-import java.util.List;
 
 public abstract class BaseCommand implements TxdCommand {
 
@@ -17,7 +16,7 @@ public abstract class BaseCommand implements TxdCommand {
 
 
 
-    public void process(TxdOutputStream outputStream, TxdInputStream inputStream) throws IOException {
+    public void process(TxdOutputStream outputStream, TdxInputStream inputStream) throws IOException {
         if(log.isDebugEnabled()){
             RecordOutputStream recordOutputStream = new RecordOutputStream(outputStream);
             doOutput(recordOutputStream);
@@ -25,13 +24,13 @@ public abstract class BaseCommand implements TxdCommand {
         }else{
             doOutput(outputStream);
         }
-
+        outputStream.flush();
         inputStream.readPack(false);
         doInput(inputStream);
     }
 
      protected  abstract void doOutput(TxdOutputStream outputStream) throws IOException;
 
-    protected abstract void doInput(TxdInputStream inputStream) throws IOException;
+    protected abstract void doInput(TdxInputStream inputStream) throws IOException;
 
 }

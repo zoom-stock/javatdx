@@ -1,7 +1,7 @@
-package org.zoomdev.stock.txd.reader;
+package org.zoomdev.stock.tdx.reader;
 
-import org.zoomdev.stock.txd.BlockStock;
-import org.zoomdev.stock.txd.TypedInputStream;
+import org.zoomdev.stock.tdx.BlockStock;
+import org.zoomdev.stock.tdx.TypedInputStream;
 
 import java.io.IOException;
 import java.util.ArrayList;

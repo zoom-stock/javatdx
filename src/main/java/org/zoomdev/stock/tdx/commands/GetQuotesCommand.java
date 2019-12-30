@@ -1,8 +1,8 @@
-package org.zoomdev.stock.txd.commands;
+package org.zoomdev.stock.tdx.commands;
 
 import org.zoomdev.stock.Quote;
-import org.zoomdev.stock.txd.TxdInputStream;
-import org.zoomdev.stock.txd.TxdOutputStream;
+import org.zoomdev.stock.tdx.TdxInputStream;
+import org.zoomdev.stock.tdx.TxdOutputStream;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,6 +58,7 @@ public class GetQuotesCommand extends BaseCommand {
         outputStream.writeInt(0);
         outputStream.writeInt(0);
         outputStream.writeShort(0);
+
     }
 
     static String getDate(int year, int month, int date, int hour, int minute) {
@@ -68,7 +69,7 @@ public class GetQuotesCommand extends BaseCommand {
         return String.format("%d-%02d-%02d", year, month, date);
     }
 
-    String getDate(TxdInputStream inputStream) throws IOException {
+    String getDate(TdxInputStream inputStream) throws IOException {
         int year;
         int month;
         int hour;
@@ -96,14 +97,14 @@ public class GetQuotesCommand extends BaseCommand {
     }
 
     @Override
-    protected void doInput(TxdInputStream stream) throws IOException {
+    protected void doInput(TdxInputStream stream) throws IOException {
 
 
         //不用解压缩
         int count = stream.readShort();
         quotes = new ArrayList<Quote>(count);
         double pre_diff_base = 0;
-        assert (count == this.count);
+ //       assert (count == this.count);
         for (int i = 0; i < count; ++i) {
             String date = getDate(stream);
             double price_open_diff = stream.getPrice();

@@ -1,6 +1,5 @@
-package org.zoomdev.stock.txd;
+package org.zoomdev.stock.tdx;
 
-import java.io.BufferedReader;
 import java.io.Closeable;
 
 class Utils {

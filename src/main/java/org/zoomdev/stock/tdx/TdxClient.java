@@ -1,10 +1,10 @@
-package org.zoomdev.stock.txd;
+package org.zoomdev.stock.tdx;
 
 import org.zoomdev.stock.Quote;
-import org.zoomdev.stock.txd.commands.GetQuotesCommand;
-import org.zoomdev.stock.txd.commands.GetStockCommand;
-import org.zoomdev.stock.txd.commands.LoginCommand;
-import org.zoomdev.stock.txd.reader.BlockReader;
+import org.zoomdev.stock.tdx.commands.GetQuotesCommand;
+import org.zoomdev.stock.tdx.commands.GetStockCommand;
+import org.zoomdev.stock.tdx.commands.LoginCommand;
+import org.zoomdev.stock.tdx.reader.BlockReader;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -19,11 +19,11 @@ import java.util.List;
 public class TdxClient {
 
 
-    public static final int DEFAULT_SO_TIMEOUT = 3000;
+    public static final int DEFAULT_SO_TIMEOUT = 10000;
     private static final int DEFAULT_CONNECT_TIMEOUT = 500;
 
     Socket socket ;
-    TxdInputStream inputStream;
+    TdxInputStream inputStream;
     private TxdOutputStream outputStream;
     private InetSocketAddress address;
 
@@ -57,8 +57,8 @@ public class TdxClient {
         socket.connect(address,connectTimeout);
         InputStream inputStream = socket.getInputStream();
         OutputStream out = socket.getOutputStream();
-        TxdInputStream txdInput = new TxdInputStream(new BufferedInputStream(inputStream));
-        TxdOutputStream txdOutput = new TxdOutputStream(out);
+        TdxInputStream txdInput = new TdxInputStream(new BufferedInputStream(inputStream));
+        TxdOutputStream txdOutput = new TxdOutputStream(new BufferedOutputStream(out));
         this.inputStream = txdInput;
         this.outputStream = txdOutput;
 
@@ -124,6 +124,7 @@ public class TdxClient {
     private BlockInfoMeta getBlockInfoMeta(String type) throws IOException {
         outputStream.write(HexUtils.decodeHex("0C39186900012A002A00C502"));
         outputStream.writeUtf8String(type,0x2a - 2);
+        outputStream.flush();
 
         inputStream.readPack(false);
 
@@ -144,6 +145,7 @@ public class TdxClient {
         outputStream.writeInt(start);
         outputStream.writeInt(size);
         outputStream.writeUtf8String(type,0x6e-10);
+        outputStream.flush();
 
         inputStream.readPack(false);
         byte[] bytes = inputStream.toByteArray();

@@ -1,6 +1,6 @@
-package org.zoomdev.stock.txd.impl;
+package org.zoomdev.stock.tdx.impl;
 
-import org.zoomdev.stock.txd.TxdOutputStream;
+import org.zoomdev.stock.tdx.TxdOutputStream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

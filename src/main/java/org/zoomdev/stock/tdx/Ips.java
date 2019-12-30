@@ -1,10 +1,7 @@
-package org.zoomdev.stock.txd;
+package org.zoomdev.stock.tdx;
 
-import java.net.Inet4Address;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Ips {
 

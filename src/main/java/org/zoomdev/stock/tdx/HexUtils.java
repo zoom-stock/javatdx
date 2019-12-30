@@ -1,4 +1,4 @@
-package org.zoomdev.stock.txd;
+package org.zoomdev.stock.tdx;
 
 import java.io.IOException;
 import java.io.OutputStream;

@@ -1,4 +1,4 @@
-package org.zoomdev.stock.txd;
+package org.zoomdev.stock.tdx;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -91,6 +91,7 @@ public class TdxClientService {
                     task.get();
                 } catch (ExecutionException e) {
                     //发生了io异常
+                    e.printStackTrace();
                     setConnected(false);
                     client.close();
                     return true;

@@ -1,6 +1,6 @@
-package org.zoomdev.stock.txd.commands;
+package org.zoomdev.stock.tdx.commands;
 
-import org.zoomdev.stock.txd.*;
+import org.zoomdev.stock.tdx.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ public class GetStockCommand extends BaseCommand {
     @Override
     protected void doOutput(TxdOutputStream outputStream) throws IOException {
         outputStream.write(HexUtils.decodeHex("0c0118640101060006005004"));
-        outputStream.writeInt(market.ordinal());
-        outputStream.writeInt(start);
+        outputStream.writeShort(market.ordinal());
+        outputStream.writeShort(start);
     }
 
 
@@ -32,7 +32,7 @@ public class GetStockCommand extends BaseCommand {
     }
 
     @Override
-    protected void doInput(TxdInputStream inputStream) throws IOException {
+    protected void doInput(TdxInputStream inputStream) throws IOException {
         int count = inputStream.readShort();
         list = new ArrayList<StockInfo>(count);
         for(int i=0; i < count; ++i){

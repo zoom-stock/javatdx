@@ -1,12 +1,10 @@
-package org.zoomdev.stock.txd.reader;
+package org.zoomdev.stock.tdx.reader;
 
-import com.oracle.tools.packager.IOUtils;
 import org.zoomdev.stock.Quote;
-import org.zoomdev.stock.txd.HexUtils;
+import org.zoomdev.stock.tdx.HexUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
 
 
 /**
