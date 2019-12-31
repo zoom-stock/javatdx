@@ -1,6 +1,8 @@
 package org.zoomdev.stock.tdx;
 
+import org.zoomdev.stock.IndexQuote;
 import org.zoomdev.stock.Quote;
+import org.zoomdev.stock.tdx.commands.GetIndexQuotesCommand;
 import org.zoomdev.stock.tdx.commands.GetQuotesCommand;
 import org.zoomdev.stock.tdx.commands.GetStockCommand;
 import org.zoomdev.stock.tdx.commands.LoginCommand;
@@ -84,6 +86,20 @@ public class TdxClient {
 
             }
         }
+    }
+
+
+    public List<IndexQuote> getIndexQuotes(
+            Category category,
+            Market market,
+            String code,
+            int start,
+            int count
+    ) throws IOException {
+
+        GetIndexQuotesCommand cmd = new GetIndexQuotesCommand(category.ordinal(),market.ordinal(),code,start,count);
+        cmd.process(this.outputStream,this.inputStream);
+        return cmd.quotes;
     }
 
     public List<Quote> getQuotes(

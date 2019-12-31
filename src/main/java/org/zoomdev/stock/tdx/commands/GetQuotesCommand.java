@@ -142,7 +142,7 @@ public class GetQuotesCommand extends BaseCommand {
     }
 
 
-    private double getPrice(double base, double diff) {
+    protected static double getPrice(double base, double diff) {
         return (base + diff) / 1000;
     }
 
