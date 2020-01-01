@@ -2,6 +2,7 @@ package org.zoomdev.stock.tdx;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.zoomdev.stock.IndexQuote;
 import org.zoomdev.stock.Quote;
 
 import java.io.IOException;
@@ -246,6 +247,21 @@ public class TdxClientService {
         });
     }
 
+    public Future<List<IndexQuote>> getIndexQuotes(
+            final Category category,
+            final Market market,
+            final String code,
+            final int start,
+            final int count
+    ){
+        return submit(new Callable<List<IndexQuote>>() {
+            @Override
+            public List<IndexQuote> call() throws Exception {
+                TdxClient client = getClient();
+                return client.getIndexQuotes(category,market,code,start,count);
+            }
+        });
+    }
 
 
 
