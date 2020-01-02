@@ -4,12 +4,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
  
     <modelVersion>4.0.0</modelVersion>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <artifactId>tdx</artifactId>
     <groupId>org.zoomdev.stock</groupId>
     <name>txd</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
+
+    <distributionManagement>
+        <repository>
+            <!-- 这里的ID要和setting的id一致 -->
+            <id>nexus-release</id>
+            <url>http://nexus.zoom-dev.org/repository/maven-releases/</url>
+        </repository>
+        <!--这是打成快照版本的配置 -->
+        <snapshotRepository>
+            <id>nexus-snapshot</id>
+            <url>http://nexus.zoom-dev.org/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

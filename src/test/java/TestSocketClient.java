@@ -23,13 +23,14 @@ public class TestSocketClient extends TestCase {
         String code = "399001";
         int start = 0;
         int count = 1;
-     List<IndexQuote> quotes = client.getIndexQuotes(Category.day, Market.sz,code,start,3);
-      System.out.println(quotes);
+//     List<IndexQuote> quotes = client.getIndexQuotes(Category.day, Market.sz,code,start,3);
+//      System.out.println(quotes);
 
         // client.getList(Market.sh,0);
 
 
-    //    System.out.println(client.getStockList(Market.sh,0));
+      //        System.out.println(client.getStockList(Market.sh,0));
+        System.out.println(client.getCount(Market.sh));
 
     //  System.out.println(client.getStockList(Market.sz,0));
     }

@@ -117,6 +117,18 @@ public class TdxClient {
     }
 
 
+    public int getCount(Market market) throws IOException {
+        outputStream.writeHexString("0c0c186c0001080008004e04");
+        outputStream.writeShort(market.ordinal());
+        outputStream.writeHexString("75c73301");
+
+        outputStream.flush();
+
+        inputStream.readPack(false);
+        return inputStream.readShort();
+    }
+
+
 
     public List<StockInfo> getStockList(Market market,int start) throws IOException {
         GetStockCommand cmd = new GetStockCommand(market,start);

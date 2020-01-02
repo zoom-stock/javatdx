@@ -44,8 +44,14 @@ public class TdxClientService {
         }
 
 
-        private void sendHeart(){
-
+        private int count;
+        /// 1分钟一次
+        private void sendHeart() throws IOException {
+            ++count;
+            if(count >= 5*30){
+                count = 0;
+                client.getCount(Market.sh);
+            }
         }
 
 
@@ -82,24 +88,22 @@ public class TdxClientService {
 
             try {
                 FutureTask task = queue.poll(200,TimeUnit.MILLISECONDS);
-                if(task==null){
-                    //检查心跳
-                    sendHeart();
-                    return true;
-                }
-                task.run();
                 try{
+                    if(task==null){
+                        //检查心跳
+                        sendHeart();
+                        return true;
+                    }
+                    task.run();
                     task.get();
-                } catch (ExecutionException e) {
-                    //发生了io异常
-                    e.printStackTrace();
+                    return true;
+                }catch (Exception e){
+                    log.info("An error has happened, close the socket and reconnect",e);
                     setConnected(false);
                     client.close();
                     return true;
+
                 }
-
-
-                return true;
 
             } catch (InterruptedException e) {
                 return false;
@@ -224,6 +228,16 @@ public class TdxClientService {
         FutureTask<T> future = new FutureTask<T>(callable);;
         queue.add(future);
         return future;
+    }
+
+    public Future<Integer> getCount(final Market market){
+        return submit(new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                TdxClient client = getClient();
+                return client.getCount(market);
+            }
+        });
     }
 
 
