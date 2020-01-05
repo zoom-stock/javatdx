@@ -85,7 +85,7 @@ public class FileQuoteReader {
     }
 
     static String getDate(int year, int month, int date, int hour, int minute) {
-        return String.format("%04d%02d%02d%02d%02d:", year, month, date, hour, minute);
+        return String.format("%04d%02d%02d%02d%02d", year, month, date, hour, minute);
     }
     public static String parseDate(byte[] bytes, int start){
         int time = HexUtils.readShort(bytes, start);

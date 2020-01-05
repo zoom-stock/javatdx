@@ -26,7 +26,7 @@ public class TdxClient {
 
     Socket socket ;
     TdxInputStream inputStream;
-    private TxdOutputStream outputStream;
+    private TdxOutputStream outputStream;
     private InetSocketAddress address;
 
     public int getSoTimeout() {
@@ -60,7 +60,7 @@ public class TdxClient {
         InputStream inputStream = socket.getInputStream();
         OutputStream out = socket.getOutputStream();
         TdxInputStream txdInput = new TdxInputStream(new BufferedInputStream(inputStream));
-        TxdOutputStream txdOutput = new TxdOutputStream(new BufferedOutputStream(out));
+        TdxOutputStream txdOutput = new TdxOutputStream(new BufferedOutputStream(out));
         this.inputStream = txdInput;
         this.outputStream = txdOutput;
 

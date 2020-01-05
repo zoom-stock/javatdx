@@ -1,9 +1,7 @@
 package org.zoomdev.stock.tdx.commands;
 
 import org.zoomdev.stock.IndexQuote;
-import org.zoomdev.stock.Quote;
 import org.zoomdev.stock.tdx.TdxInputStream;
-import org.zoomdev.stock.tdx.TxdOutputStream;
 
 import java.io.IOException;
 import java.util.ArrayList;

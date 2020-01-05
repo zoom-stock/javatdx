@@ -17,7 +17,7 @@ public class GetStockCommand extends BaseCommand {
 
 
     @Override
-    protected void doOutput(TxdOutputStream outputStream) throws IOException {
+    protected void doOutput(TdxOutputStream outputStream) throws IOException {
         outputStream.write(HexUtils.decodeHex("0c0118640101060006005004"));
         outputStream.writeShort(market.ordinal());
         outputStream.writeShort(start);

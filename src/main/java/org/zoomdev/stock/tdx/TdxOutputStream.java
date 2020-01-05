@@ -3,11 +3,11 @@ package org.zoomdev.stock.tdx;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class TxdOutputStream extends OutputStream {
+public class TdxOutputStream extends OutputStream {
 
     private final OutputStream outputStream;
 
-    public TxdOutputStream(OutputStream outputStream){
+    public TdxOutputStream(OutputStream outputStream){
         this.outputStream = outputStream;
     }
 

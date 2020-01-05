@@ -2,7 +2,7 @@ package org.zoomdev.stock.tdx.commands;
 
 import org.zoomdev.stock.Quote;
 import org.zoomdev.stock.tdx.TdxInputStream;
-import org.zoomdev.stock.tdx.TxdOutputStream;
+import org.zoomdev.stock.tdx.TdxOutputStream;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class GetQuotesCommand extends BaseCommand {
     }
 
     @Override
-    protected void doOutput(TxdOutputStream outputStream) throws IOException {
+    protected void doOutput(TdxOutputStream outputStream) throws IOException {
 
         outputStream.writeShort(0x10c);
         outputStream.writeInt(0x01016408);

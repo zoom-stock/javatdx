@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.zoomdev.stock.tdx.HexUtils;
 import org.zoomdev.stock.tdx.TdxInputStream;
-import org.zoomdev.stock.tdx.TxdOutputStream;
+import org.zoomdev.stock.tdx.TdxOutputStream;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ public class LoginCommand extends GroupCommand {
     static class Cmd1 extends BaseCommand{
 
         @Override
-        protected void doOutput(TxdOutputStream out) throws IOException {
+        protected void doOutput(TdxOutputStream out) throws IOException {
             out.write(HexUtils.decodeHex("0c0218930001030003000d0001"));
         }
 
@@ -31,7 +31,7 @@ public class LoginCommand extends GroupCommand {
     static class Cmd2 extends BaseCommand{
 
         @Override
-        protected void doOutput(TxdOutputStream out) throws IOException {
+        protected void doOutput(TdxOutputStream out) throws IOException {
             out.write(HexUtils.decodeHex("0c0218940001030003000d0002"));
         }
 
@@ -44,7 +44,7 @@ public class LoginCommand extends GroupCommand {
     static class Cmd3 extends BaseCommand{
 
         @Override
-        protected void doOutput(TxdOutputStream out) throws IOException {
+        protected void doOutput(TdxOutputStream out) throws IOException {
             out.write(HexUtils.decodeHex(("0c031899000120002000db0fd5d0c9ccd6a4a8af0000008fc22540130000d500c9ccbdf0d7ea00000002")));
         }
 
