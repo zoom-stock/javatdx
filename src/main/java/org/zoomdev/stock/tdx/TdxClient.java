@@ -6,7 +6,7 @@ import org.zoomdev.stock.tdx.commands.GetIndexQuotesCommand;
 import org.zoomdev.stock.tdx.commands.GetQuotesCommand;
 import org.zoomdev.stock.tdx.commands.GetStockCommand;
 import org.zoomdev.stock.tdx.commands.LoginCommand;
-import org.zoomdev.stock.tdx.reader.BlockReader;
+import org.zoomdev.stock.tdx.reader.TdxBlockReader;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -201,7 +201,7 @@ public class TdxClient {
 
         }
 
-        return BlockReader.read(out.toByteArray());
+        return TdxBlockReader.read(out.toByteArray());
     }
 
 }

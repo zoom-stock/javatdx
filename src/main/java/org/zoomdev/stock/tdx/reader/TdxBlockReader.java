@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockReader {
+public class TdxBlockReader {
 
     public static List<BlockStock> read(byte[] content) throws IOException {
         TypedInputStream inputStream = new TypedInputStream(content);

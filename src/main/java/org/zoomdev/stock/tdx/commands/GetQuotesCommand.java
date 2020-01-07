@@ -31,6 +31,9 @@ public class GetQuotesCommand extends BaseCommand {
             int start,
             int count
     ) {
+        if(count>800){
+            count = 800;
+        }
 
         this.code = code;
         this.market = market;

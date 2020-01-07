@@ -3,14 +3,19 @@ package org.zoomdev.stock.tdx.reader;
 import org.zoomdev.stock.Quote;
 import org.zoomdev.stock.tdx.HexUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 
 /**
  * 通达信本地文件解析工具类
  */
-public class FileQuoteReader {
+public class TdxFileQuoteReader {
 
     /**
      * 日线数据取出之后
@@ -31,6 +36,60 @@ public class FileQuoteReader {
 
         Quote quote = new Quote();
         quote.setDate(String.format("%04d%02d%02d", time / 10000, time % 10000 / 100, time % 10000 % 100));
+        quote.setClose(close);
+        quote.setOpen(open);
+        quote.setLow(low);
+        quote.setHigh(high);
+        quote.setVol(vol);
+        quote.setTor(0);
+        quote.setAmt(amt);
+        return quote;
+    }
+
+    public static Quote parseForDay(DataInput is) throws IOException {
+        int time = is.readInt();
+
+        double open = (double) is.readInt() / 100;
+        double high = (double) is.readInt() / 100;
+        double low = (double) is.readInt() / 100;
+        double close = (double) is.readInt() / 100;
+        double amt = (double) is.readInt() / 100;
+        double vol = (double) is.readInt();
+
+
+        Quote quote = new Quote();
+        quote.setDate(String.format("%04d%02d%02d", time / 10000, time % 10000 / 100, time % 10000 % 100));
+        quote.setClose(close);
+        quote.setOpen(open);
+        quote.setLow(low);
+        quote.setHigh(high);
+        quote.setVol(vol);
+        quote.setTor(0);
+        quote.setAmt(amt);
+        return quote;
+    }
+
+
+    public static Quote parseForMin(DataInput is) throws IOException {
+        int time = is.readUnsignedShort();
+        int year = (time / 2048) + 2004;
+        int month = ((time % 2048) / 100);
+        int day = ((time % 2048) % 100);
+        int minute =is.readUnsignedShort();
+        int hour = minute / 60;
+        minute = minute % 60;
+        String date= getDate(year, month, day, hour, minute);
+
+        double open = is.readFloat();
+        double high = is.readFloat();
+        double low = is.readFloat();
+        double close = is.readFloat();
+        double amt = is.readFloat();
+        double vol = is.readInt();
+
+
+        Quote quote = new Quote();
+        quote.setDate(date);
         quote.setClose(close);
         quote.setOpen(open);
         quote.setLow(low);
