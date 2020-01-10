@@ -150,6 +150,8 @@ public class TdxQuoteReader {
         int year = (time / 2048) + 2004;
         int month = ((time % 2048) / 100);
         int day = ((time % 2048) % 100);
+
+
         int minute = HexUtils.readShort(bytes, start + 2);
         int hour = minute / 60;
         minute = minute % 60;
