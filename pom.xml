@@ -40,7 +40,7 @@
         </dependency>
 
         <dependency>
-            <version>0.0.1</version>
+            <version>0.0.6</version>
             <artifactId>stock</artifactId>
             <groupId>org.zoomdev.stock</groupId>
         </dependency>
