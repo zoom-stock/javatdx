@@ -1,5 +1,7 @@
 package org.zoomdev.stock.tdx;
 
+import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -20,6 +22,10 @@ public class TdxOutputStream extends OutputStream {
         write((i>>8)&0xff);
     }
 
+    public void writeFloat(float f) throws IOException {
+        //writeFloat
+        writeInt(Float.floatToIntBits(f));
+    }
 
 
     public void write(int i) throws IOException {

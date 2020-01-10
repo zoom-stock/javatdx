@@ -261,16 +261,16 @@ public class TdxClientService {
         });
     }
 
-    public Future<List<IndexQuote>> getIndexQuotes(
+    public Future<List<Quote>> getIndexQuotes(
             final Category category,
             final Market market,
             final String code,
             final int start,
             final int count
     ){
-        return submit(new Callable<List<IndexQuote>>() {
+        return submit(new Callable<List<Quote>>() {
             @Override
-            public List<IndexQuote> call() throws Exception {
+            public List<Quote> call() throws Exception {
                 TdxClient client = getClient();
                 return client.getIndexQuotes(category,market,code,start,count);
             }

@@ -89,7 +89,7 @@ public class TdxClient {
     }
 
 
-    public List<IndexQuote> getIndexQuotes(
+    public List<Quote> getIndexQuotes(
             Category category,
             Market market,
             String code,
@@ -98,8 +98,7 @@ public class TdxClient {
     ) throws IOException {
 
         GetIndexQuotesCommand cmd = new GetIndexQuotesCommand(category.ordinal(),market.ordinal(),code,start,count);
-        cmd.process(this.outputStream,this.inputStream);
-        return cmd.quotes;
+        return cmd.process(this.outputStream,this.inputStream);
     }
 
     public List<Quote> getQuotes(
@@ -112,8 +111,7 @@ public class TdxClient {
 
     ) throws IOException {
         GetQuotesCommand cmd = new GetQuotesCommand(category.ordinal(),market.ordinal(),code,start,count);
-        cmd.process(this.outputStream,this.inputStream);
-        return cmd.getQuotes();
+        return cmd.process(this.outputStream,this.inputStream);
     }
 
 
@@ -132,8 +130,7 @@ public class TdxClient {
 
     public List<StockInfo> getStockList(Market market,int start) throws IOException {
         GetStockCommand cmd = new GetStockCommand(market,start);
-        cmd.process(this.outputStream,this.inputStream);
-        return cmd.getStockList();
+        return cmd.process(this.outputStream,this.inputStream);
     }
 
     

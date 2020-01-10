@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetQuotesCommand extends BaseCommand {
+public class GetQuotesCommand extends ListCommand<Quote> {
 
     private final String code;
     private final int market;
@@ -16,12 +16,8 @@ public class GetQuotesCommand extends BaseCommand {
     private final int count;
     private final int category;
 
-    public List<Quote> getQuotes() {
-        return quotes;
-    }
 
 
-    private List<Quote> quotes;
 
     public GetQuotesCommand(
             int category,
@@ -99,49 +95,44 @@ public class GetQuotesCommand extends BaseCommand {
 
     }
 
+
+    double pre_diff_base = 0;
     @Override
-    protected void doInput(TdxInputStream stream) throws IOException {
+    protected Quote parseItem(TdxInputStream stream) throws IOException {
+        String date = getDate(stream);
+        double price_open_diff = stream.getPrice();
+        double price_close_diff = stream.getPrice();
+        double price_high_diff = stream.getPrice();
+        double price_low_diff = stream.getPrice();
 
+        int vol_row = stream.readInt();
+        double vol = getVolumn(vol_row);
+        int dbvol_row = stream.readInt();
+        double amt = getVolumn(dbvol_row);
 
-        //不用解压缩
-        int count = stream.readShort();
-        quotes = new ArrayList<Quote>(count);
-        double pre_diff_base = 0;
- //       assert (count == this.count);
-        for (int i = 0; i < count; ++i) {
-            String date = getDate(stream);
-            double price_open_diff = stream.getPrice();
-            double price_close_diff = stream.getPrice();
-            double price_high_diff = stream.getPrice();
-            double price_low_diff = stream.getPrice();
+        double open = getPrice(price_open_diff, pre_diff_base);
+        price_open_diff = price_open_diff + pre_diff_base;
 
-            int vol_row = stream.readInt();
-            double vol = getVolumn(vol_row);
-            int dbvol_row = stream.readInt();
-            double amt = getVolumn(dbvol_row);
+        double close = getPrice(price_open_diff, price_close_diff);
+        double high = getPrice(price_open_diff, price_high_diff);
+        double low = getPrice(price_open_diff, price_low_diff);
 
-            double open = getPrice(price_open_diff, pre_diff_base);
-            price_open_diff = price_open_diff + pre_diff_base;
+        pre_diff_base = price_open_diff + price_close_diff;
 
-            double close = getPrice(price_open_diff, price_close_diff);
-            double high = getPrice(price_open_diff, price_high_diff);
-            double low = getPrice(price_open_diff, price_low_diff);
+        Quote quote = createQuote();
+        quote.setDate(date);
+        quote.setClose(close);
+        quote.setOpen(open);
+        quote.setHigh(high);
+        quote.setLow(low);
+        quote.setVol((int) vol);
+        quote.setAmt(amt);
 
-            pre_diff_base = price_open_diff + price_close_diff;
+        return quote;
+    }
 
-            Quote quote = new Quote();
-            quote.setDate(date);
-            quote.setClose(close);
-            quote.setOpen(open);
-            quote.setHigh(high);
-            quote.setLow(low);
-            quote.setVol(vol);
-            quote.setAmt(amt);
-
-            quotes.add(quote);
-        }
-
-
+    protected Quote createQuote(){
+        return new Quote();
     }
 
 

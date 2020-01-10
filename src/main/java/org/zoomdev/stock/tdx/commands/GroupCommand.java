@@ -5,7 +5,7 @@ import org.zoomdev.stock.tdx.TdxOutputStream;
 
 import java.io.IOException;
 
-public class GroupCommand implements TdxCommand {
+public class GroupCommand implements TdxCommand<Object> {
 
     private final TdxCommand[] commands;
 
@@ -14,9 +14,10 @@ public class GroupCommand implements TdxCommand {
     }
 
     @Override
-    public void process(TdxOutputStream outputStream, TdxInputStream inputStream) throws IOException {
+    public Object process(TdxOutputStream outputStream, TdxInputStream inputStream) throws IOException {
         for(TdxCommand c : commands){
             c.process(outputStream,inputStream);
         }
+        return null;
     }
 }

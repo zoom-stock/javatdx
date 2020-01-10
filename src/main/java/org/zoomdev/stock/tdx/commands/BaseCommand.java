@@ -9,14 +9,14 @@ import org.zoomdev.stock.tdx.impl.RecordOutputStream;
 
 import java.io.IOException;
 
-public abstract class BaseCommand implements TdxCommand {
+public abstract class BaseCommand<R> implements TdxCommand<R> {
 
 
     protected static final Log log = LogFactory.getLog(BaseCommand.class);
 
 
 
-    public void process(TdxOutputStream outputStream, TdxInputStream inputStream) throws IOException {
+    public R process(TdxOutputStream outputStream, TdxInputStream inputStream) throws IOException {
         if(log.isDebugEnabled()){
             RecordOutputStream recordOutputStream = new RecordOutputStream(outputStream);
             doOutput(recordOutputStream);
@@ -26,11 +26,11 @@ public abstract class BaseCommand implements TdxCommand {
         }
         outputStream.flush();
         inputStream.readPack(false);
-        doInput(inputStream);
+        return doInput(inputStream);
     }
 
      protected  abstract void doOutput(TdxOutputStream outputStream) throws IOException;
 
-    protected abstract void doInput(TdxInputStream inputStream) throws IOException;
+    protected abstract R doInput(TdxInputStream inputStream) throws IOException;
 
 }

@@ -5,6 +5,6 @@ import org.zoomdev.stock.tdx.TdxOutputStream;
 
 import java.io.IOException;
 
-public interface TdxCommand {
-    void process(TdxOutputStream outputStream, TdxInputStream inputStream) throws IOException;
+public interface TdxCommand<R> {
+    R process(TdxOutputStream outputStream, TdxInputStream inputStream) throws IOException;
 }

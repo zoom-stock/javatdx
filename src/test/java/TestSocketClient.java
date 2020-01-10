@@ -20,11 +20,11 @@ public class TestSocketClient extends TestCase {
         client.setSocketAddress(new InetSocketAddress("119.147.212.81", 7709));
         client.connect();
 
-        String code = "399001";
+        String code = "000001";
         int start = 0;
         int count = 1;
-//     List<IndexQuote> quotes = client.getIndexQuotes(Category.day, Market.sz,code,start,3);
-//      System.out.println(quotes);
+     List<Quote> quotes = client.getQuotes(Category.day, Market.sz,code,start,3);
+      System.out.println(quotes);
 
         // client.getList(Market.sh,0);
 

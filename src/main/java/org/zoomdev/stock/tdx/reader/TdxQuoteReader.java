@@ -1,21 +1,19 @@
 package org.zoomdev.stock.tdx.reader;
 
 import org.zoomdev.stock.Quote;
+import org.zoomdev.stock.tdx.DataInputStream;
 import org.zoomdev.stock.tdx.HexUtils;
 
-import java.io.ByteArrayInputStream;
 import java.io.DataInput;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
 
 
 /**
  * 通达信本地文件解析工具类
  */
-public class TdxFileQuoteReader {
+public class TdxQuoteReader {
 
     /**
      * 日线数据取出之后
@@ -31,7 +29,7 @@ public class TdxFileQuoteReader {
         double low = (double) HexUtils.readInt(bytes, start + 12) / 100;
         double close = (double) HexUtils.readInt(bytes, start + 16) / 100;
         double amt = (double) HexUtils.readInt(bytes, start + 20) / 100;
-        double vol = (double) HexUtils.readInt(bytes, start + 24);
+        int vol = HexUtils.readInt(bytes, start + 24);
 
 
         Quote quote = new Quote();
@@ -46,15 +44,16 @@ public class TdxFileQuoteReader {
         return quote;
     }
 
-    public static Quote parseForDay(DataInput is) throws IOException {
+    public static Quote parseForDay(DataInputStream is) throws IOException {
         int time = is.readInt();
 
         double open = (double) is.readInt() / 100;
         double high = (double) is.readInt() / 100;
         double low = (double) is.readInt() / 100;
         double close = (double) is.readInt() / 100;
-        double amt = (double) is.readInt() / 100;
-        double vol = (double) is.readInt();
+
+        double amt = (double) is.readFloat() ;
+        int vol =  is.readInt();
 
 
         Quote quote = new Quote();
@@ -70,12 +69,12 @@ public class TdxFileQuoteReader {
     }
 
 
-    public static Quote parseForMin(DataInput is) throws IOException {
-        int time = is.readUnsignedShort();
+    public static Quote parseForMin(DataInputStream is) throws IOException {
+        int time = is.readShort();
         int year = (time / 2048) + 2004;
         int month = ((time % 2048) / 100);
         int day = ((time % 2048) % 100);
-        int minute =is.readUnsignedShort();
+        int minute =is.readShort();
         int hour = minute / 60;
         minute = minute % 60;
         String date= getDate(year, month, day, hour, minute);
@@ -85,7 +84,7 @@ public class TdxFileQuoteReader {
         double low = is.readFloat();
         double close = is.readFloat();
         double amt = is.readFloat();
-        double vol = is.readInt();
+        int vol = is.readInt();
 
 
         Quote quote = new Quote();
@@ -113,7 +112,7 @@ public class TdxFileQuoteReader {
         double low = getFloat(bytes, start + 12);
         double close = getFloat(bytes, start + 16);
         double amt = getFloat(bytes, start + 20);
-        double vol = HexUtils.readInt(bytes, start + 24);
+        int vol = HexUtils.readInt(bytes, start + 24);
 
 
         Quote quote = new Quote();

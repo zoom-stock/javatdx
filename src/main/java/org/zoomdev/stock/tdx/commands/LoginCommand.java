@@ -23,8 +23,8 @@ public class LoginCommand extends GroupCommand {
         }
 
         @Override
-        protected void doInput(TdxInputStream inputStream) throws IOException {
-
+        protected Object doInput(TdxInputStream inputStream) throws IOException {
+            return null;
         }
     }
 
@@ -36,8 +36,9 @@ public class LoginCommand extends GroupCommand {
         }
 
         @Override
-        protected void doInput(TdxInputStream inputStream) throws IOException {
-           log.info("通达信登录成功，准备发送指令");
+        protected Object doInput(TdxInputStream inputStream) throws IOException {
+
+           return null;
         }
     }
 
@@ -49,8 +50,9 @@ public class LoginCommand extends GroupCommand {
         }
 
         @Override
-        protected void doInput(TdxInputStream inputStream) throws IOException {
-
+        protected Object doInput(TdxInputStream inputStream) throws IOException {
+            log.info("通达信登录成功，准备发送指令");
+            return null;
         }
     }
 

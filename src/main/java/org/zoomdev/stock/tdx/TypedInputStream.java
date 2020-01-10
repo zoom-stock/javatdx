@@ -5,10 +5,14 @@ import java.io.*;
 public class TypedInputStream extends ByteArrayInputStream {
 
 
-
-
     public TypedInputStream(byte[] content) {
         super(content);
+    }
+
+    public void setBuf(byte[] buf){
+        this.buf = buf;
+        this.pos = 0;
+        this.count = buf.length;
     }
 
     public int readByte() throws IOException {
@@ -31,11 +35,7 @@ public class TypedInputStream extends ByteArrayInputStream {
         return (first&0xff) | ((second <<8)&0xff00);
     }
 
-    public void setBuf(byte[] buf){
-        this.buf = buf;
-        this.pos = 0;
-        this.count = buf.length;
-    }
+
 
     public String readUtf8String(int len) throws IOException {
         return readString(len,"utf-8");
