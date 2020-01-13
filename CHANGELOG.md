@@ -1,3 +1,6 @@
+# 0.1.2
+修改日期格式为yyyyMMdd与yyyyMMddHHmm
+
 # 0.1.1
 新增writer
 

@@ -61,11 +61,11 @@ public class GetQuotesCommand extends ListCommand<Quote> {
     }
 
     static String getDate(int year, int month, int date, int hour, int minute) {
-        return String.format("%d-%02d-%02d %02d:%02d", year, month, date, hour, minute);
+        return String.format("%d%02d%02d%02d%02d", year, month, date, hour, minute);
     }
 
     static String getDate(int year, int month, int date) {
-        return String.format("%d-%02d-%02d", year, month, date);
+        return String.format("%d%02d%02d", year, month, date);
     }
 
     String getDate(TdxInputStream inputStream) throws IOException {
