@@ -1,4 +1,4 @@
-package org.zoomdev.stock.tdx;
+package org.zoomdev.stock.tdx.impl;
 
 
 import org.apache.commons.logging.Log;
@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Randy
  */
-public abstract class ServiceThread extends Thread{
+abstract class ServiceThread extends Thread {
 
 
     private static final Log log = LogFactory.getLog(ServiceThread.class);
@@ -23,7 +23,6 @@ public abstract class ServiceThread extends Thread{
     public ServiceThread() {
         this.setDaemon(true);
     }
-
 
 
     public boolean isRunning() {
@@ -53,7 +52,7 @@ public abstract class ServiceThread extends Thread{
     protected abstract boolean repetitionRun();
 
 
-    protected void init(){
+    protected void init() {
 
     }
 

@@ -1,6 +1,6 @@
-package org.zoomdev.stock.tdx;
+package org.zoomdev.stock.tdx.impl;
 
-public class IpInfo {
+class IpInfo {
 
 
     String host;
@@ -15,7 +15,7 @@ public class IpInfo {
         this.name = name;
     }
 
-    public IpInfo(String host, int port){
+    public IpInfo(String host, int port) {
         this.host = host;
         this.port = port;
     }

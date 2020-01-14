@@ -1,17 +1,17 @@
-package org.zoomdev.stock.tdx.impl;
+package org.zoomdev.stock.tdx.commands;
 
-import org.zoomdev.stock.tdx.TdxOutputStream;
+import org.zoomdev.stock.tdx.utils.DataOutputStream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class RecordOutputStream extends TdxOutputStream {
+class RecordOutputStream extends DataOutputStream {
 
 
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-    public RecordOutputStream(OutputStream stream){
+    public RecordOutputStream(OutputStream stream) {
         super(stream);
 
     }
@@ -22,7 +22,7 @@ public class RecordOutputStream extends TdxOutputStream {
         byteArrayOutputStream.write(b);
     }
 
-    public byte[] toByteArray(){
+    public byte[] toByteArray() {
         return byteArrayOutputStream.toByteArray();
     }
 }

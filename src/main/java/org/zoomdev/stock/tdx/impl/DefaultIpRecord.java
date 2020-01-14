@@ -1,38 +1,37 @@
-package org.zoomdev.stock.tdx;
+package org.zoomdev.stock.tdx.impl;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultIpRecord implements IpRecord {
+class DefaultIpRecord implements IpRecord {
 
 
-    private File getFile(){
-        String folder=System.getProperty("java.io.tmpdir");
-        File recordFild = new File(folder,"tdx-ip-record.txt");
+    private File getFile() {
+        String folder = System.getProperty("java.io.tmpdir");
+        File recordFild = new File(folder, "tdx-ip-record.txt");
         return recordFild;
     }
-
 
 
     @Override
     public IpInfo[] load(IpInfo[] infos) {
         File file = getFile();
         BufferedReader reader = null;
-        try{
-            Map<String,Integer> map = new HashMap<String, Integer>();
+        try {
+            Map<String, Integer> map = new HashMap<String, Integer>();
             reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             String line = null;
-            while((line = reader.readLine())!=null){
+            while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" ");
-                if(parts.length==2){
-                    map.put(parts[0],Integer.parseInt(parts[1]));
+                if (parts.length == 2) {
+                    map.put(parts[0], Integer.parseInt(parts[1]));
                 }
             }
 
-            for(IpInfo info : infos){
-                Integer count = map.get(String.format("%s:%d",info.host,info.port));
-                if(count!=null){
+            for (IpInfo info : infos) {
+                Integer count = map.get(String.format("%s:%d", info.host, info.port));
+                if (count != null) {
                     info.successCount = count;
                 }
             }
@@ -49,12 +48,12 @@ public class DefaultIpRecord implements IpRecord {
     public void save(IpInfo[] infos) {
         File file = getFile();
         BufferedWriter writer = null;
-        try{
+        try {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
 
-            for(IpInfo info : infos){
+            for (IpInfo info : infos) {
 
-                writer.write(String.format("%s:%d %d",info.host,info.port,info.successCount));
+                writer.write(String.format("%s:%d %d", info.host, info.port, info.successCount));
                 writer.newLine();
             }
             writer.flush();

@@ -1,6 +1,6 @@
-package org.zoomdev.stock.tdx;
+package org.zoomdev.stock.tdx.impl;
 
-public interface IpRecord {
+interface IpRecord {
     //取得host连接成功数量
     IpInfo[] load(IpInfo[] infos);
 

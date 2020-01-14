@@ -1,29 +1,27 @@
-package org.zoomdev.stock.tdx;
+package org.zoomdev.stock.tdx.impl;
 
 import com.jcraft.jzlib.Inflater;
 import com.jcraft.jzlib.JZlib;
+import org.zoomdev.stock.tdx.utils.DataInputStream;
+import org.zoomdev.stock.tdx.utils.HexUtils;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 
-public class TdxInputStream extends TypedInputStream {
+public class TdxInputStream extends DataInputStream {
 
     public static final byte[] EMPTY = new byte[0];
-
-    private  InputStream is;
+    public static final int EOF = -1;
+    private InputStream is;
     private byte[] header = new byte[0x10];
+    private int packSize;
+    private int uncompressSize;
 
-    public TdxInputStream(byte[] bytes) {
-        super(bytes);
-    }
-
-    public TdxInputStream(InputStream is){
-        super(EMPTY);
+    public TdxInputStream(InputStream is) {
         this.is = is;
     }
 
-    public static final int EOF = -1;
-
-    private int ensureRead(byte[] buffer,int offset,int length) throws IOException {
+    private int ensureRead(byte[] buffer, int offset, int length) throws IOException {
         int remaining = length;
         while (remaining > 0) {
             final int location = length - remaining;
@@ -39,18 +37,15 @@ public class TdxInputStream extends TypedInputStream {
     public void ensureRead(byte[] cache) throws IOException {
 
         int pos = 0;
-        for(int i=0; i < 10; ++i){
-            int readed = ensureRead(cache,pos,cache.length-pos);
+        for (int i = 0; i < 10; ++i) {
+            int readed = ensureRead(cache, pos, cache.length - pos);
             pos += readed;
-            if(pos >= cache.length){
+            if (pos >= cache.length) {
                 return;
             }
         }
 
     }
-
-    private int packSize;
-    private int uncompressSize;
 
     public void readHeader() throws IOException {
 
@@ -59,16 +54,15 @@ public class TdxInputStream extends TypedInputStream {
         uncompressSize = HexUtils.readShort(header, 14);
     }
 
-    public boolean needsToInflate(){
+    public boolean needsToInflate() {
         return packSize != uncompressSize;
     }
-
 
 
     public byte[] readBody(boolean skipInflate) throws IOException {
         byte[] data = new byte[packSize];
         ensureRead(data);
-        if(needsToInflate() && !skipInflate){
+        if (needsToInflate() && !skipInflate) {
             //后面的还有104个
             byte[] unzip = new byte[uncompressSize];
             Inflater inflater = new Inflater();
@@ -94,24 +88,19 @@ public class TdxInputStream extends TypedInputStream {
     }
 
 
-
-
-    public byte[] toByteArray(){
+    public byte[] toByteArray() {
         return buf;
     }
 
 
     public byte[] readPack(boolean skipInflate) throws IOException {
         readHeader();
-        byte[] pack= readBody(skipInflate);
+        byte[] pack = readBody(skipInflate);
         return pack;
     }
 
 
-
-
-
-//
+    //
     public double getPrice() throws IOException {
         int pos_byte = 6;
         int bdata = readByte();
@@ -140,7 +129,6 @@ public class TdxInputStream extends TypedInputStream {
         }
         return intdata;
     }
-
 
 
 }

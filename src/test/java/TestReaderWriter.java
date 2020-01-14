@@ -1,8 +1,7 @@
 import junit.framework.TestCase;
 import org.zoomdev.stock.Quote;
-import org.zoomdev.stock.tdx.DataInputStream;
-import org.zoomdev.stock.tdx.TdxInputStream;
-import org.zoomdev.stock.tdx.TdxOutputStream;
+import org.zoomdev.stock.tdx.utils.DataInputStream;
+import org.zoomdev.stock.tdx.utils.DataOutputStream;
 import org.zoomdev.stock.tdx.reader.TdxQuoteReader;
 import org.zoomdev.stock.tdx.writer.TdxQuoteWriter;
 
@@ -22,7 +21,7 @@ public class TestReaderWriter extends TestCase {
         quote.setAmt(5);
         quote.setVol(6);
         ByteArrayOutputStream byteArrayOutputStream= new ByteArrayOutputStream();
-        TdxOutputStream os = new TdxOutputStream(byteArrayOutputStream);
+        DataOutputStream os = new DataOutputStream(byteArrayOutputStream);
         TdxQuoteWriter.writeForDay(quote,os);
         byte[] bytes = byteArrayOutputStream.toByteArray();
 
@@ -49,7 +48,7 @@ public class TestReaderWriter extends TestCase {
         quote.setAmt(5);
         quote.setVol(6);
         ByteArrayOutputStream byteArrayOutputStream= new ByteArrayOutputStream();
-        TdxOutputStream os = new TdxOutputStream(byteArrayOutputStream);
+        DataOutputStream os = new DataOutputStream(byteArrayOutputStream);
         TdxQuoteWriter.writeForMin(quote,os);
         byte[] bytes = byteArrayOutputStream.toByteArray();
 

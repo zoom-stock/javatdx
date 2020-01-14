@@ -1,15 +1,13 @@
-package org.zoomdev.stock.tdx;
+package org.zoomdev.stock.tdx.utils;
 
-import java.io.DataOutput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class TdxOutputStream extends OutputStream {
+public class DataOutputStream extends OutputStream {
 
     private final OutputStream outputStream;
 
-    public TdxOutputStream(OutputStream outputStream){
+    public DataOutputStream(OutputStream outputStream) {
         this.outputStream = outputStream;
     }
 
@@ -17,9 +15,9 @@ public class TdxOutputStream extends OutputStream {
         this.outputStream.flush();
     }
 
-    public void writeShort(int i) throws  IOException{
+    public void writeShort(int i) throws IOException {
         write(i & 0xff);
-        write((i>>8)&0xff);
+        write((i >> 8) & 0xff);
     }
 
     public void writeFloat(float f) throws IOException {
@@ -34,27 +32,26 @@ public class TdxOutputStream extends OutputStream {
 
     public void writeInt(int i) throws IOException {
         write(i & 0xff);
-        write((i>>8)&0xff);
-        write((i>>16 ) & 0xff);
-        write((i>>24)&0xff);
+        write((i >> 8) & 0xff);
+        write((i >> 16) & 0xff);
+        write((i >> 24) & 0xff);
     }
 
 
-
     public void writeAscii(String code) throws IOException {
-        for(byte b : code.getBytes()){
+        for (byte b : code.getBytes()) {
             write(b);
         }
     }
 
     public void writeUtf8String(String type, int len) throws IOException {
         byte[] bytes = type.getBytes("utf-8");
-        if(bytes.length > len){
+        if (bytes.length > len) {
             throw new IllegalArgumentException("type is too long");
         }
 
         write(bytes);
-        for(int i=bytes.length; i < len; ++i){
+        for (int i = bytes.length; i < len; ++i) {
             write(0);
         }
     }

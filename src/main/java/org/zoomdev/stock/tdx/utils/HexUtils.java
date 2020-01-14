@@ -1,9 +1,11 @@
-package org.zoomdev.stock.tdx;
+package org.zoomdev.stock.tdx.utils;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 public class HexUtils {
+    private static final char[] DIGITS_LOWER = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
     /**
      * @param data
      * @param start
@@ -14,14 +16,12 @@ public class HexUtils {
                 (data[start] & 0xff));
     }
 
-
     public static int readInt(byte[] data, int start) {
         return ((data[start + 3] << 24) & 0xff000000) |
                 ((data[start + 2] << 16) & 0xff0000) |
                 ((data[start + 1] << 8) & 0xff00) |
                 (data[start] & 0xff);
     }
-
 
     public static void writeShort(byte[] data, int start, int value) {
         data[start] = (byte) (value & 0xff);
@@ -31,7 +31,6 @@ public class HexUtils {
     public static void writeInt(byte[] data, int start, int value) {
 
     }
-
 
     public static void writeShort(OutputStream stream, int value) {
         try {
@@ -52,9 +51,6 @@ public class HexUtils {
             e.printStackTrace();
         }
     }
-
-    private static final char[] DIGITS_LOWER = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-
 
     public static String encodeHexStr(byte[] data) {
         return new String(encodeHex(data, 0, data.length, DIGITS_LOWER));

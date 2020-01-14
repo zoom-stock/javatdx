@@ -1,33 +1,10 @@
-package org.zoomdev.stock.tdx;
+package org.zoomdev.stock.tdx.impl;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Ips {
+class Ips {
 
-
-    public static IpInfo[] getIpInfos(IpRecord record){
-
-        IpInfo[] infos = new IpInfo[IP_INFOS.length];
-        for(int i=0; i < infos.length; ++i){
-            infos[i] = IP_INFOS[i];
-        }
-        record.load(infos);
-        Arrays.sort(infos, new Comparator<IpInfo>() {
-            @Override
-            public int compare(IpInfo o1, IpInfo o2) {
-                if(o1.successCount > o2.successCount){
-                    return -1;
-                }
-                if(o1.successCount < o2.successCount){
-                    return 1;
-                }
-                return 0;
-            }
-        });
-
-        return infos;
-    }
 
     private static final IpInfo[] IP_INFOS = new IpInfo[]{
             new IpInfo("106.120.74.86", 7711, "北京行情主站1"),
@@ -92,6 +69,28 @@ public class Ips {
             new IpInfo("23.129.245.199", 7721)
     };
 
+    public static IpInfo[] getIpInfos(IpRecord record) {
+
+        IpInfo[] infos = new IpInfo[IP_INFOS.length];
+        for (int i = 0; i < infos.length; ++i) {
+            infos[i] = IP_INFOS[i];
+        }
+        record.load(infos);
+        Arrays.sort(infos, new Comparator<IpInfo>() {
+            @Override
+            public int compare(IpInfo o1, IpInfo o2) {
+                if (o1.successCount > o2.successCount) {
+                    return -1;
+                }
+                if (o1.successCount < o2.successCount) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+
+        return infos;
+    }
 
 
 }

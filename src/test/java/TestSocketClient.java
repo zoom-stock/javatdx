@@ -1,7 +1,9 @@
 import junit.framework.TestCase;
-import org.zoomdev.stock.IndexQuote;
 import org.zoomdev.stock.Quote;
-import org.zoomdev.stock.tdx.*;
+import org.zoomdev.stock.tdx.BlockType;
+import org.zoomdev.stock.tdx.Category;
+import org.zoomdev.stock.tdx.Market;
+import org.zoomdev.stock.tdx.impl.TdxClientImpl;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -16,23 +18,25 @@ public class TestSocketClient extends TestCase {
 
     public void test() throws IOException {
 
-        TdxClient client = new TdxClient();
+        TdxClientImpl client = new TdxClientImpl();
         client.setSocketAddress(new InetSocketAddress("119.147.212.81", 7709));
         client.connect();
 
         String code = "000001";
         int start = 0;
         int count = 1;
-     List<Quote> quotes = client.getQuotes(Category.day, Market.sz,code,start,3);
-      System.out.println(quotes);
 
-        // client.getList(Market.sh,0);
-
-
-      //        System.out.println(client.getStockList(Market.sh,0));
         System.out.println(client.getCount(Market.sh));
+        System.out.println(client.getCount(Market.sz));
 
-    //  System.out.println(client.getStockList(Market.sz,0));
+         List<Quote> quotes = client.getQuotes(Category.day, Market.sz,code,start,100);
+        System.out.println(quotes);
+
+        System.out.println( client.getStockList(Market.sh,0));
+
+        System.out.println(client.getIndexQuotes(Category._d,Market.sh,code,start,100));
+
+        System.out.println(client.getBlockInfo(BlockType.BLOCK_DEFAULT));
     }
 
 

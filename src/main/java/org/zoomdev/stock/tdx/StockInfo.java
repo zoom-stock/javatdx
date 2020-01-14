@@ -2,13 +2,15 @@ package org.zoomdev.stock.tdx;
 
 public class StockInfo {
 
-    @Override
-    public String toString() {
-        return String.format("%s %s %.02f",code,name,price);
-    }
-
     String code;
     double price;
+    String name;
+    int decimalPoint;
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %.02f", code, name, price);
+    }
 
     public String getName() {
         return name;
@@ -17,9 +19,6 @@ public class StockInfo {
     public void setName(String name) {
         this.name = name;
     }
-
-    String name;
-    int decimalPoint;
 
     public String getCode() {
         return code;

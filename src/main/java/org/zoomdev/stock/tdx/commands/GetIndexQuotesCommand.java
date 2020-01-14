@@ -2,11 +2,9 @@ package org.zoomdev.stock.tdx.commands;
 
 import org.zoomdev.stock.IndexQuote;
 import org.zoomdev.stock.Quote;
-import org.zoomdev.stock.tdx.TdxInputStream;
+import org.zoomdev.stock.tdx.impl.TdxInputStream;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GetIndexQuotesCommand extends GetQuotesCommand {
 
@@ -16,7 +14,7 @@ public class GetIndexQuotesCommand extends GetQuotesCommand {
 
     @Override
     protected Quote parseItem(TdxInputStream stream) throws IOException {
-        IndexQuote quote= (IndexQuote) super.parseItem(stream);
+        IndexQuote quote = (IndexQuote) super.parseItem(stream);
         int upCount = stream.readShort();
         int downCount = stream.readShort();
         quote.setUpCount(upCount);

@@ -5,15 +5,14 @@ import java.util.List;
 public class BlockStock {
 
 
-    @Override
-    public String toString() {
-        return String.format("%s %d (%d)",blockName, blockType, codes!=null?codes.size():0);
-    }
-
     String blockName;
     int blockType;
-
     List<String> codes;
+
+    @Override
+    public String toString() {
+        return String.format("%s %d (%d)", blockName, blockType, codes != null ? codes.size() : 0);
+    }
 
     public String getBlockName() {
         return blockName;

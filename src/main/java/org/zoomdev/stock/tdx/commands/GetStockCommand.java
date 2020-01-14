@@ -1,28 +1,29 @@
 package org.zoomdev.stock.tdx.commands;
 
-import org.zoomdev.stock.tdx.*;
+import org.zoomdev.stock.tdx.Market;
+import org.zoomdev.stock.tdx.StockInfo;
+import org.zoomdev.stock.tdx.impl.TdxInputStream;
+import org.zoomdev.stock.tdx.utils.DataOutputStream;
+import org.zoomdev.stock.tdx.utils.HexUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GetStockCommand extends ListCommand<StockInfo> {
+    Market market;
+    int start;
+
     public GetStockCommand(Market market, int start) {
         this.market = market;
         this.start = start;
     }
 
-    Market market;
-    int start;
-
-
     @Override
-    protected void doOutput(TdxOutputStream outputStream) throws IOException {
+    protected void doOutput(DataOutputStream outputStream) throws IOException {
         outputStream.write(HexUtils.decodeHex("0c0118640101060006005004"));
         outputStream.writeShort(market.ordinal());
         outputStream.writeShort(start);
     }
-    
+
 
     @Override
     protected StockInfo parseItem(TdxInputStream inputStream) throws IOException {

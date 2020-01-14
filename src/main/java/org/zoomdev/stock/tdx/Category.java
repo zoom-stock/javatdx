@@ -3,7 +3,7 @@ package org.zoomdev.stock.tdx;
 /**
  * 时间线
  */
-public enum  Category {
+public enum Category {
     m5,//0
     m15,//1
     m30,//2
@@ -16,7 +16,6 @@ public enum  Category {
     _d,//9
     season,//10
     year,//11
-
 
 
 }
