@@ -27,7 +27,7 @@ public interface TdxClientService {
 
 
     //全部
-    Future<List<StockInfo>> getStockList() throws IOException;
+    Future<List<StockInfo>> getStockList();
 
     Future<List<Quote>> getQuotes(
             final Category category,
