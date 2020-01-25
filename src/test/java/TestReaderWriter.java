@@ -1,8 +1,8 @@
 import junit.framework.TestCase;
 import org.zoomdev.stock.Quote;
+import org.zoomdev.stock.tdx.reader.TdxQuoteReader;
 import org.zoomdev.stock.tdx.utils.DataInputStream;
 import org.zoomdev.stock.tdx.utils.DataOutputStream;
-import org.zoomdev.stock.tdx.reader.TdxQuoteReader;
 import org.zoomdev.stock.tdx.writer.TdxQuoteWriter;
 
 import java.io.ByteArrayInputStream;
@@ -20,21 +20,21 @@ public class TestReaderWriter extends TestCase {
         quote.setLow(4);
         quote.setAmt(5);
         quote.setVol(6);
-        ByteArrayOutputStream byteArrayOutputStream= new ByteArrayOutputStream();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream os = new DataOutputStream(byteArrayOutputStream);
-        TdxQuoteWriter.writeForDay(quote,os);
+        TdxQuoteWriter.writeForDay(quote, os);
         byte[] bytes = byteArrayOutputStream.toByteArray();
 
         ByteArrayInputStream is = new ByteArrayInputStream(bytes);
         DataInputStream dataInputStream = new DataInputStream();
         dataInputStream.setBuf(bytes);
-        Quote quote1=TdxQuoteReader.parseForDay(dataInputStream);
+        Quote quote1 = TdxQuoteReader.parseForDay(dataInputStream);
 
 
         System.out.println(quote1);
 
 
-        assertEquals(quote1.getDate(),quote.getDate());
+        assertEquals(quote1.getDate(), quote.getDate());
 
     }
 
@@ -47,21 +47,21 @@ public class TestReaderWriter extends TestCase {
         quote.setLow(4);
         quote.setAmt(5);
         quote.setVol(6);
-        ByteArrayOutputStream byteArrayOutputStream= new ByteArrayOutputStream();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream os = new DataOutputStream(byteArrayOutputStream);
-        TdxQuoteWriter.writeForMin(quote,os);
+        TdxQuoteWriter.writeForMin(quote, os);
         byte[] bytes = byteArrayOutputStream.toByteArray();
 
         ByteArrayInputStream is = new ByteArrayInputStream(bytes);
         DataInputStream dataInputStream = new DataInputStream();
         dataInputStream.setBuf(bytes);
-        Quote quote1=TdxQuoteReader.parseForMin(dataInputStream);
+        Quote quote1 = TdxQuoteReader.parseForMin(dataInputStream);
 
 
         System.out.println(quote1);
 
 
-        assertEquals(quote1.getDate(),quote.getDate());
+        assertEquals(quote1.getDate(), quote.getDate());
 
     }
 }

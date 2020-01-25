@@ -16,21 +16,21 @@ public class TestSocketClientService extends TestCase {
         TdxClientServiceImpl service = new TdxClientServiceImpl();
         service.start();
 
-        Future<List<Quote>>  quotes = service.getQuotes(Category._d, Market.sh,"000001",0,1);
+        Future<List<Quote>> quotes = service.getQuotes(Category._d, Market.sh, "000001", 0, 1);
 
         System.out.println(quotes.get());
 
-        quotes = service.getQuotes(Category._d, Market.sh,"000001",0,1);
+        quotes = service.getQuotes(Category._d, Market.sh, "000001", 0, 1);
 
         System.out.println(quotes.get());
 
 
-        Future<List<StockInfo>>  list = service.getStockList(Market.sz,1000);
+        Future<List<StockInfo>> list = service.getStockList(Market.sz, 1000);
         List<StockInfo> result = list.get();
         System.out.println(result);
 
 
-        quotes = service.getQuotes(Category._d, Market.sh,"000001",0,1);
+        quotes = service.getQuotes(Category._d, Market.sh, "000001", 0, 1);
 
         System.out.println(quotes.get());
     }
