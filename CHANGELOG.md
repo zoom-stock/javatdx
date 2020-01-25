@@ -1,12 +1,15 @@
-# 0.1.2
-修改日期格式为yyyyMMdd与yyyyMMddHHmm
+# 0.1.3
+* 整合getStockList
 
-# 0.1.1
-新增writer
+## 0.1.2
+* 修改日期格式为yyyyMMdd与yyyyMMddHHmm
+
+## 0.1.1
+* 新增writer
 
 
-# 0.1.0
-一些代码优化
+## 0.1.0
+* 一些代码优化
 
 
 ## 0.0.6

@@ -2,6 +2,7 @@ package org.zoomdev.stock.tdx;
 
 import org.zoomdev.stock.Quote;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -23,6 +24,10 @@ public interface TdxClientService {
             final int start,
             final int count
     );
+
+
+    //全部
+    Future<List<StockInfo>> getStockList() throws IOException;
 
     Future<List<Quote>> getQuotes(
             final Category category,

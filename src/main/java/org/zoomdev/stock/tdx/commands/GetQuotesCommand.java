@@ -161,10 +161,10 @@ public class GetQuotesCommand extends ListCommand<Quote> {
     @Override
     protected Quote parseItem(TdxInputStream stream) throws IOException {
         String date = getDate(stream);
-        double price_open_diff = stream.getPrice();
-        double price_close_diff = stream.getPrice();
-        double price_high_diff = stream.getPrice();
-        double price_low_diff = stream.getPrice();
+        double price_open_diff = stream.readPrice();
+        double price_close_diff = stream.readPrice();
+        double price_high_diff = stream.readPrice();
+        double price_low_diff = stream.readPrice();
 
         int vol_row = stream.readInt();
         double vol = getVolumn(vol_row);

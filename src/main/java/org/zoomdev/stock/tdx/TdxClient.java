@@ -41,5 +41,13 @@ public interface TdxClient {
 
     List<StockInfo> getStockList(Market market, int start) throws IOException;
 
+    //全部
+    List<StockInfo> getStockList() throws IOException;
+
     List<BlockStock> getBlockInfo(BlockType type) throws IOException;
+
+
+    List<TimePrice> getTimePrice(Market market, String code) throws IOException;
+
+    List<TimePrice> getHistoryTimePrice(Market market, String code, String date) throws IOException;
 }

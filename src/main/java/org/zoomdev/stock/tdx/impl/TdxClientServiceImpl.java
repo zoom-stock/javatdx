@@ -174,6 +174,17 @@ public class TdxClientServiceImpl implements TdxClientService {
         });
     }
 
+    @Override
+    public Future<List<StockInfo>> getStockList() throws IOException {
+        return submit(new Callable<List<StockInfo>>() {
+            @Override
+            public List<StockInfo> call() throws Exception {
+                TdxClientImpl client = getClient();
+                return client.getStockList();
+            }
+        });
+    }
+
     class TxdServiceThread extends ServiceThread {
         final TdxClientImpl client;
         private boolean connected = false;

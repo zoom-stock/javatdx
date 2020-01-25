@@ -2,10 +2,7 @@ package org.zoomdev.stock.tdx.impl;
 
 import org.zoomdev.stock.Quote;
 import org.zoomdev.stock.tdx.*;
-import org.zoomdev.stock.tdx.commands.GetIndexQuotesCommand;
-import org.zoomdev.stock.tdx.commands.GetQuotesCommand;
-import org.zoomdev.stock.tdx.commands.GetStockCommand;
-import org.zoomdev.stock.tdx.commands.LoginCommand;
+import org.zoomdev.stock.tdx.commands.*;
 import org.zoomdev.stock.tdx.reader.TdxBlockReader;
 import org.zoomdev.stock.tdx.utils.DataOutputStream;
 import org.zoomdev.stock.tdx.utils.HexUtils;
@@ -13,6 +10,7 @@ import org.zoomdev.stock.tdx.utils.HexUtils;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -108,6 +106,19 @@ public class TdxClientImpl implements TdxClient {
         return cmd.process(this.outputStream, this.inputStream);
     }
 
+
+    @Override
+    public List<TimePrice> getTimePrice(Market market, String code) throws IOException {
+        GetTimePriceCommand cmd = new GetTimePriceCommand(market, code);
+        return cmd.process(this.outputStream, this.inputStream);
+    }
+
+    @Override
+    public List<TimePrice> getHistoryTimePrice(Market market, String code, String date) throws IOException {
+        GetHistoryTimePriceCommand cmd = new GetHistoryTimePriceCommand(market, code, date);
+        return cmd.process(this.outputStream, this.inputStream);
+    }
+
     public int getCount(Market market) throws IOException {
         outputStream.writeHexString("0c0c186c0001080008004e04");
         outputStream.writeShort(market.ordinal());
@@ -122,6 +133,27 @@ public class TdxClientImpl implements TdxClient {
     public List<StockInfo> getStockList(Market market, int start) throws IOException {
         GetStockCommand cmd = new GetStockCommand(market, start);
         return cmd.process(this.outputStream, this.inputStream);
+    }
+
+
+    private void getStockList(Market market, List<StockInfo> result) throws IOException {
+        int start = 0;
+        while (true) {
+            List<StockInfo> list = getStockList(market, start);
+            result.addAll(list);
+            if (list.size() < 1000) {
+                break;
+            }
+            start += 1000;
+        }
+    }
+
+    @Override
+    public List<StockInfo> getStockList() throws IOException {
+        List<StockInfo> result = new ArrayList<StockInfo>();
+        getStockList(Market.sh, result);
+        getStockList(Market.sz, result);
+        return result;
     }
 
     private BlockInfoMeta getBlockInfoMeta(String type) throws IOException {
@@ -176,6 +208,7 @@ public class TdxClientImpl implements TdxClient {
 
         return TdxBlockReader.read(out.toByteArray());
     }
+
 
     class BlockInfoMeta {
         int size;

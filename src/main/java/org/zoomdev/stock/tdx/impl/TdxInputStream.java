@@ -101,7 +101,7 @@ public class TdxInputStream extends DataInputStream {
 
 
     //
-    public double getPrice() throws IOException {
+    public double readPrice() throws IOException {
         int pos_byte = 6;
         int bdata = readByte();
         int intdata = bdata & 0x3f;
