@@ -38,6 +38,7 @@ public class GetStockCommand extends ListCommand<StockInfo> {
         double pre_close = GetQuotesCommand.getVolumn(pre_close_raw);
         StockInfo stockInfo = new StockInfo();
         stockInfo.setCode(code);
+        stockInfo.setMarket(market);
 
         stockInfo.setDecimalPoint(decimal_point);
         stockInfo.setPrice(pre_close);

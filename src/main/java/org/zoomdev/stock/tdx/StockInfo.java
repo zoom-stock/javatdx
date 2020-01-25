@@ -7,6 +7,16 @@ public class StockInfo {
     String name;
     int decimalPoint;
 
+    public Market getMarket() {
+        return market;
+    }
+
+    public void setMarket(Market market) {
+        this.market = market;
+    }
+
+    Market market;
+
     @Override
     public String toString() {
         return String.format("%s %s %.02f", code, name, price);

@@ -1,4 +1,7 @@
-# 0.1.4
+# 0.1.5
+* StockInfo增加market字段
+
+## 0.1.4
 * 整合getStockList
 
 ## 0.1.2
