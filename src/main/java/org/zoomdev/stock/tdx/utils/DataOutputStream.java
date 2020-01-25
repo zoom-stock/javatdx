@@ -44,10 +44,10 @@ public class DataOutputStream extends OutputStream {
         }
     }
 
-    public void writeUtf8String(String type, int len) throws IOException {
-        byte[] bytes = type.getBytes("utf-8");
+    public void writeUtf8String(String text, int len) throws IOException {
+        byte[] bytes = text.getBytes("utf-8");
         if (bytes.length > len) {
-            throw new IllegalArgumentException("type is too long");
+            throw new IllegalArgumentException("text is too long");
         }
 
         write(bytes);

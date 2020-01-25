@@ -2,7 +2,6 @@ package org.zoomdev.stock.tdx;
 
 import org.zoomdev.stock.Quote;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -18,11 +17,11 @@ public interface TdxClientService {
     Future<List<BlockStock>> getBlockInfo(BlockType type);
 
     Future<List<Quote>> getIndexQuotes(
-            final Category category,
-            final Market market,
-            final String code,
-            final int start,
-            final int count
+            Category category,
+            Market market,
+            String code,
+            int start,
+            int count
     );
 
 
@@ -30,12 +29,16 @@ public interface TdxClientService {
     Future<List<StockInfo>> getStockList();
 
     Future<List<Quote>> getQuotes(
-            final Category category,
-            final Market market,
-            final String code,
-            final int start,
-            final int count
+            Category category,
+            Market market,
+            String code,
+            int start,
+            int count
 
 
     );
+
+
+    // 设置断线之后重连的延时（毫秒)
+    void setReconnectTimeout(int timeout);
 }

@@ -15,12 +15,16 @@ public class TdxClientServiceImpl implements TdxClientService {
 
     public static final Log log = LogFactory.getLog(TdxClientServiceImpl.class);
 
+    public static final int DEFAULT_RECONNECT_TIMEOUT = 1000;
+
     private final int threadCount;
     private final BlockingQueue<FutureTask> queue = new LinkedBlockingDeque<FutureTask>();
     private IpInfo[] ipInfos;
     private ServiceThread[] serviceThreads;
     private IpRecord ipRecord = new DefaultIpRecord();
     private AtomicInteger connectedCounter = new AtomicInteger(0);
+
+    private int reconnectTimeout = DEFAULT_RECONNECT_TIMEOUT;
 
     public TdxClientServiceImpl() {
         this(1);
@@ -54,6 +58,11 @@ public class TdxClientServiceImpl implements TdxClientService {
                 info.successCount++;
                 break;
             } catch (IOException e) {
+                try {
+                    Thread.sleep(reconnectTimeout);
+                } catch (InterruptedException ex) {
+                    return;
+                }
                 log.warn("Connect to host " + info.host + " fail ", e);
                 if (info.successCount > 0) {
                     info.successCount--;
@@ -116,6 +125,11 @@ public class TdxClientServiceImpl implements TdxClientService {
         });
     }
 
+    @Override
+    public void setReconnectTimeout(int timeout) {
+        reconnectTimeout = timeout;
+    }
+
     private TdxClientImpl getClient() {
         TxdServiceThread thread = (TxdServiceThread) Thread.currentThread();
         return thread.client;
@@ -175,7 +189,7 @@ public class TdxClientServiceImpl implements TdxClientService {
     }
 
     @Override
-    public Future<List<StockInfo>> getStockList()  {
+    public Future<List<StockInfo>> getStockList() {
         return submit(new Callable<List<StockInfo>>() {
             @Override
             public List<StockInfo> call() throws Exception {

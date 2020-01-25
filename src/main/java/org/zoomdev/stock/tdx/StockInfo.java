@@ -6,6 +6,7 @@ public class StockInfo {
     double price;
     String name;
     int decimalPoint;
+    Market market;
 
     public Market getMarket() {
         return market;
@@ -14,8 +15,6 @@ public class StockInfo {
     public void setMarket(Market market) {
         this.market = market;
     }
-
-    Market market;
 
     @Override
     public String toString() {

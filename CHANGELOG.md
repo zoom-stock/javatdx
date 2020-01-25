@@ -1,4 +1,8 @@
-# 0.1.6
+
+# 0.1.7
+* 增加reconnectTimeout属性
+
+## 0.1.6
 * StockInfo增加market字段
 
 ## 0.1.4
