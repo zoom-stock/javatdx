@@ -175,7 +175,7 @@ public class TdxClientServiceImpl implements TdxClientService {
     }
 
     @Override
-    public Future<List<StockInfo>> getStockList() throws IOException {
+    public Future<List<StockInfo>> getStockList()  {
         return submit(new Callable<List<StockInfo>>() {
             @Override
             public List<StockInfo> call() throws Exception {
