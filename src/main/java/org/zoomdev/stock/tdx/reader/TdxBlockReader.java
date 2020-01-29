@@ -67,10 +67,10 @@ public class TdxBlockReader {
             public void visit(String line) {
                 String[] parts = line.split("\\|");
                 if (parts.length == 5) {
-                    int market = Integer.parseInt(parts[0]);
+                   // int market = Integer.parseInt(parts[0]);
                     String code = parts[1];
                     String type = parts[2];
-                    addTo(map, type, market + code);
+                    addTo(map, type, code);
                 }
             }
         });

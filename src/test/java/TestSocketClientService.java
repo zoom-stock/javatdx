@@ -13,14 +13,14 @@ import java.util.concurrent.Future;
 public class TestSocketClientService extends TestCase {
 
     public void test() throws ExecutionException, InterruptedException, IOException {
-        TdxClientServiceImpl service = new TdxClientServiceImpl(2);
-        service.start();
-        long now = System.currentTimeMillis();
-        for(int i=0; i < 100; ++i){
-            Future<List<Quote>> quotes = service.getQuotes(Category.m1, Market.sh, "000001", 0, 1);
-            quotes.get();
-        }
-        System.out.println("耗时"+(System.currentTimeMillis()-now));
+//        TdxClientServiceImpl service = new TdxClientServiceImpl(2);
+//        service.start();
+//        long now = System.currentTimeMillis();
+//        for(int i=0; i < 100; ++i){
+//            Future<List<Quote>> quotes = service.getQuotes(Category.m1, Market.sh, "000001", 0, 1);
+//            quotes.get();
+//        }
+//        System.out.println("耗时"+(System.currentTimeMillis()-now));
 //
 //
 //        //System.out.println(quotes.get());
