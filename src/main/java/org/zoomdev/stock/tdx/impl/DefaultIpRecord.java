@@ -39,7 +39,7 @@ class DefaultIpRecord implements IpRecord {
 
         } catch (IOException e) {
         } finally {
-            Utils.close(reader);
+            TdxUtils.close(reader);
         }
         return infos;
     }
@@ -62,7 +62,7 @@ class DefaultIpRecord implements IpRecord {
         } catch (IOException e) {
 
         } finally {
-            Utils.close(writer);
+            TdxUtils.close(writer);
         }
     }
 }

@@ -4,9 +4,14 @@ import org.zoomdev.stock.Quote;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Collection;
 import java.util.List;
 
 public interface TdxClient {
+
+    void setTdxRootDir(String tdxRootDir);
+
+
     void setSoTimeout(int soTimeout);
 
     void setConnectTimeout(int connectTimeout);
@@ -44,7 +49,7 @@ public interface TdxClient {
     //全部
     List<StockInfo> getStockList() throws IOException;
 
-    List<BlockStock> getBlockInfo(BlockType type) throws IOException;
+    Collection<BlockStock> getBlockInfo(BlockType type) throws IOException;
 
 
     List<TimePrice> getTimePrice(Market market, String code) throws IOException;

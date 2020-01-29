@@ -2,10 +2,13 @@ package org.zoomdev.stock.tdx;
 
 import org.zoomdev.stock.Quote;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Future;
 
 public interface TdxClientService {
+    void setTdxRootDir(String tdxRootDir);
+
     void start();
 
     void stop();
@@ -14,7 +17,7 @@ public interface TdxClientService {
 
     Future<List<StockInfo>> getStockList(Market market, final int start);
 
-    Future<List<BlockStock>> getBlockInfo(BlockType type);
+    Future<Collection<BlockStock>> getBlockInfo(BlockType type);
 
     Future<List<Quote>> getIndexQuotes(
             Category category,

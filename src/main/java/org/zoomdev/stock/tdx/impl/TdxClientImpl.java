@@ -1,5 +1,7 @@
 package org.zoomdev.stock.tdx.impl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.zoomdev.stock.Quote;
 import org.zoomdev.stock.tdx.*;
 import org.zoomdev.stock.tdx.commands.*;
@@ -11,6 +13,7 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -23,12 +26,22 @@ public class TdxClientImpl implements TdxClient {
     public static final int DEFAULT_SO_TIMEOUT = 10000;
     static final int CHUNK_SIZE = 0x7530;
     private static final int DEFAULT_CONNECT_TIMEOUT = 500;
+    private static final Log log = LogFactory.getLog(TdxClient.class);
     Socket socket;
     TdxInputStream inputStream;
-    private org.zoomdev.stock.tdx.utils.DataOutputStream outputStream;
+    private DataOutputStream outputStream;
     private InetSocketAddress address;
     private int soTimeout = DEFAULT_SO_TIMEOUT;
     private int connectTimeout = DEFAULT_CONNECT_TIMEOUT;
+    private String tdxRootDir;
+
+    public String getTdxRootDir() {
+        return tdxRootDir;
+    }
+
+    public void setTdxRootDir(String tdxRootDir) {
+        this.tdxRootDir = tdxRootDir;
+    }
 
     public int getSoTimeout() {
         return soTimeout;
@@ -46,6 +59,10 @@ public class TdxClientImpl implements TdxClient {
         this.connectTimeout = connectTimeout;
     }
 
+    public InetSocketAddress getSocketAddress() {
+        return this.address;
+    }
+
     public void setSocketAddress(InetSocketAddress address) {
         this.address = address;
     }
@@ -57,7 +74,7 @@ public class TdxClientImpl implements TdxClient {
         InputStream inputStream = socket.getInputStream();
         OutputStream out = socket.getOutputStream();
         TdxInputStream txdInput = new TdxInputStream(new BufferedInputStream(inputStream));
-        org.zoomdev.stock.tdx.utils.DataOutputStream txdOutput = new DataOutputStream(new BufferedOutputStream(out));
+        DataOutputStream txdOutput = new DataOutputStream(new BufferedOutputStream(out));
         this.inputStream = txdInput;
         this.outputStream = txdOutput;
 
@@ -106,7 +123,6 @@ public class TdxClientImpl implements TdxClient {
         return cmd.process(this.outputStream, this.inputStream);
     }
 
-
     @Override
     public List<TimePrice> getTimePrice(Market market, String code) throws IOException {
         GetTimePriceCommand cmd = new GetTimePriceCommand(market, code);
@@ -134,7 +150,6 @@ public class TdxClientImpl implements TdxClient {
         GetStockCommand cmd = new GetStockCommand(market, start);
         return cmd.process(this.outputStream, this.inputStream);
     }
-
 
     private void getStockList(Market market, List<StockInfo> result) throws IOException {
         int start = 0;
@@ -189,8 +204,62 @@ public class TdxClientImpl implements TdxClient {
 
     }
 
-    public List<BlockStock> getBlockInfo(BlockType type) throws IOException {
-        BlockInfoMeta meta = getBlockInfoMeta(type.getName());
+    @Override
+    public Collection<BlockStock> getBlockInfo(BlockType type) throws IOException {
+        if (type == BlockType.Concept) {
+            return getBlockInfoByList(type);
+        } else if (type == BlockType.Style) {
+            return getBlockInfoByList(type);
+        } else if (type == BlockType.Index) {
+            return getBlockInfoByList(type);
+        }
+        //此时可以加载对应的信息
+        if (type == BlockType.TdxIndustry) {
+            if (tdxRootDir == null) {
+                log.warn("没有设置通达信根目录，不能获取全部信息");
+            }
+            byte[] stockBytes = downFile("tdxhy.cfg");
+            Collection<BlockStock> stocks = TdxBlockReader.getBlockStockInfos(tdxRootDir, new ByteArrayInputStream(stockBytes), type);
+            return stocks;
+        }
+        throw new RuntimeException("不支持的type类型" + type);
+    }
+
+    private Collection<BlockStock> getBlockInfoByList(BlockType type) throws IOException {
+        List<StockInfo> list = getStockList();
+        if (type == BlockType.Concept) {
+            return TdxBlockReader.fillCode(getBlockInfo(BlockFileType.BLOCK_GN), list);
+        } else if (type == BlockType.Style) {
+            return TdxBlockReader.fillCode(getBlockInfo(BlockFileType.BLOCK_FG), list);
+        } else if (type == BlockType.Index) {
+            return TdxBlockReader.fillCode(getBlockInfo(BlockFileType.BLOCK_ZS), list);
+        } else {
+            throw new RuntimeException("不支持的type类型" + type);
+        }
+    }
+
+    private Collection<BlockStock> getBlockInfoByFile(BlockType type) throws IOException {
+
+        if (type == BlockType.Concept) {
+            return TdxBlockReader.getBlockStockInfos(tdxRootDir, getBlockInfo(BlockFileType.BLOCK_GN), type);
+        } else if (type == BlockType.Style) {
+            return TdxBlockReader.getBlockStockInfos(tdxRootDir, getBlockInfo(BlockFileType.BLOCK_FG), type);
+        } else if (type == BlockType.Index) {
+            return TdxBlockReader.getBlockStockInfos(tdxRootDir, getBlockInfo(BlockFileType.BLOCK_ZS), type);
+        } else {
+            throw new RuntimeException("不支持的type类型" + type);
+        }
+    }
+
+
+    public List<BlockStock> getBlockInfo(BlockFileType type) throws IOException {
+        byte[] bytes = downFile(type.getName());
+        return TdxBlockReader.fromDatFile(bytes, type);
+    }
+
+
+    public byte[] downFile(String name) throws IOException {
+        BlockInfoMeta meta = getBlockInfoMeta(name);
 
 
         int chuncks = meta.size / CHUNK_SIZE;
@@ -201,12 +270,11 @@ public class TdxClientImpl implements TdxClient {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         for (int seg = 0; seg < chuncks; ++seg) {
             int start = seg * CHUNK_SIZE;
-            byte[] contents = getRawBlockInfo(type.getName(), start, meta.size);
+            byte[] contents = getRawBlockInfo(name, start, meta.size);
             out.write(contents, 4, contents.length - 4);
 
         }
-
-        return TdxBlockReader.read(out.toByteArray());
+        return out.toByteArray();
     }
 
 

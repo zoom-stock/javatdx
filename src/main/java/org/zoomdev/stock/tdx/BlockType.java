@@ -1,23 +1,34 @@
 package org.zoomdev.stock.tdx;
 
 public enum BlockType {
+    //通达信行业
+    TdxIndustry(2),
+    Area(3),
 
 
-    BLOCK_SZ("block_zs.dat"),
-    BLOCK_FG("block_fg.dat"),
+    //概念
+    Concept(4),
 
-    BLOCK_GN("block_gn.dat"),
-    BLOCK_DEFAULT("block.dat");
+    //风格
+    Style(5),
 
 
-    private final String name;
+    //申万行业
+    SwIndustry(8),
 
-    BlockType(String name) {
-        this.name = name;
+
+    //指数板块
+    Index(9);
+
+    private final int type;
+
+    BlockType(int type) {
+        this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public int getType() {
+        return type;
     }
+
+
 }
-

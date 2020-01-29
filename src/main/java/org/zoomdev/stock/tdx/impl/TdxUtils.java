@@ -2,7 +2,7 @@ package org.zoomdev.stock.tdx.impl;
 
 import java.io.Closeable;
 
-class Utils {
+public class TdxUtils {
     public static void close(Closeable closeable) {
         if (closeable != null) {
             try {

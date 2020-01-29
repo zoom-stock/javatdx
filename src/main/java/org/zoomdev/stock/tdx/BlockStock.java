@@ -4,30 +4,47 @@ import java.util.List;
 
 public class BlockStock {
 
-
-    String blockName;
-    int blockType;
+    String code;
+    String name;
+    int level;
     List<String> codes;
+    BlockType type;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public BlockType getType() {
+        return type;
+    }
+
+    public void setType(BlockType type) {
+        this.type = type;
+    }
 
     @Override
     public String toString() {
-        return String.format("%s %d (%d)", blockName, blockType, codes != null ? codes.size() : 0);
+        return String.format("%s %s %d (%d)", name, code, level, codes != null ? codes.size() : 0);
     }
 
-    public String getBlockName() {
-        return blockName;
+    public String getName() {
+        return name;
     }
 
-    public void setBlockName(String blockName) {
-        this.blockName = blockName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getBlockType() {
-        return blockType;
+    public int getLevel() {
+        return level;
     }
 
-    public void setBlockType(int blockType) {
-        this.blockType = blockType;
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public List<String> getCodes() {

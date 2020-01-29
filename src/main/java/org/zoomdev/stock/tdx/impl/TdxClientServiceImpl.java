@@ -7,6 +7,8 @@ import org.zoomdev.stock.tdx.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -25,14 +27,23 @@ public class TdxClientServiceImpl implements TdxClientService {
     private AtomicInteger connectedCounter = new AtomicInteger(0);
 
     private int reconnectTimeout = DEFAULT_RECONNECT_TIMEOUT;
+    private List<InetSocketAddress> connectedAddress = new ArrayList<InetSocketAddress>();
+    private String tdxRootDir;
 
     public TdxClientServiceImpl() {
         this(1);
     }
 
-
     public TdxClientServiceImpl(int threadCount) {
         this.threadCount = threadCount;
+    }
+
+    public String getTdxRootDir() {
+        return tdxRootDir;
+    }
+
+    public void setTdxRootDir(String tdxRootDir) {
+        this.tdxRootDir = tdxRootDir;
     }
 
     public IpRecord getIpRecord() {
@@ -51,11 +62,29 @@ public class TdxClientServiceImpl implements TdxClientService {
         IpInfo[] infos = this.ipInfos;
         for (int i = 0; i < infos.length; ++i) {
             IpInfo info = infos[i];
+            InetSocketAddress address = new InetSocketAddress(info.host, info.port);
+
+
             try {
-                log.info("Try to connect to host:" + info.host);
-                client.setSocketAddress(new InetSocketAddress(info.host, info.port));
-                client.connect();
-                info.successCount++;
+                synchronized (connectedAddress) {
+                    boolean found = false;
+                    for (InetSocketAddress addr : connectedAddress) {
+                        if (addr.equals(address)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found) {
+                        continue;
+                    }
+
+                    log.info("Try to connect to host:" + info.host);
+                    client.setSocketAddress(address);
+                    client.connect();
+                    connectedAddress.add(client.getSocketAddress());
+                    info.successCount++;
+                }
+
                 break;
             } catch (IOException e) {
                 try {
@@ -162,7 +191,18 @@ public class TdxClientServiceImpl implements TdxClientService {
         });
     }
 
-    public Future<List<BlockStock>> getBlockInfo(final BlockType type) {
+    @Override
+    public Future<Collection<BlockStock>> getBlockInfo(final BlockType type) {
+        return submit(new Callable<Collection<BlockStock>>() {
+            @Override
+            public Collection<BlockStock> call() throws Exception {
+                TdxClientImpl client = getClient();
+                return client.getBlockInfo(type);
+            }
+        });
+    }
+
+    public Future<List<BlockStock>> getBlockInfo(final BlockFileType type) {
         return submit(new Callable<List<BlockStock>>() {
             @Override
             public List<BlockStock> call() throws Exception {
