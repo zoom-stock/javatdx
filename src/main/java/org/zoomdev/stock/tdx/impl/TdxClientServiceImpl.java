@@ -247,6 +247,7 @@ public class TdxClientServiceImpl implements TdxClientService {
 
         public TxdServiceThread() {
             client = new TdxClientImpl();
+            client.setTdxRootDir(tdxRootDir);
         }
 
         /// 1分钟一次

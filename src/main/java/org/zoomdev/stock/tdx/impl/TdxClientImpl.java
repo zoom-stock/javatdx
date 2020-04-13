@@ -228,11 +228,11 @@ public class TdxClientImpl implements TdxClient {
     private Collection<BlockStock> getBlockInfoByList(BlockType type) throws IOException {
         List<StockInfo> list = getStockList();
         if (type == BlockType.Concept) {
-            return TdxBlockReader.fillCode(getBlockInfo(BlockFileType.BLOCK_GN), list);
+            return TdxBlockReader.fillCode(getBlockInfo(BlockFileType.BLOCK_GN), list,type);
         } else if (type == BlockType.Style) {
-            return TdxBlockReader.fillCode(getBlockInfo(BlockFileType.BLOCK_FG), list);
+            return TdxBlockReader.fillCode(getBlockInfo(BlockFileType.BLOCK_FG), list,type);
         } else if (type == BlockType.Index) {
-            return TdxBlockReader.fillCode(getBlockInfo(BlockFileType.BLOCK_ZS), list);
+            return TdxBlockReader.fillCode(getBlockInfo(BlockFileType.BLOCK_ZS), list,type);
         } else {
             throw new RuntimeException("不支持的type类型" + type);
         }

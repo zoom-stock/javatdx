@@ -2,15 +2,13 @@ package org.zoomdev.stock.tdx.reader;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.zoomdev.stock.tdx.BlockFileType;
-import org.zoomdev.stock.tdx.BlockStock;
-import org.zoomdev.stock.tdx.BlockType;
-import org.zoomdev.stock.tdx.StockInfo;
+import org.zoomdev.stock.tdx.*;
 import org.zoomdev.stock.tdx.impl.TdxUtils;
 import org.zoomdev.stock.tdx.utils.DataInputStream;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TdxBlockReader {
 
@@ -86,11 +84,29 @@ public class TdxBlockReader {
         return stocks;
     }
 
-    public static Collection<BlockStock> fillCode(Collection<BlockStock> stocks, List<StockInfo> allStocks) {
+    public static Collection<BlockStock> fillCode(Collection<BlockStock> stocks,
+                                                  List<StockInfo> allStocks,
+                                                  BlockType type) {
+        //必须88开头,否则可能有其他指数之类的
         Map<String, String> map = new HashMap<String, String>();
-        for (StockInfo info : allStocks) {
-            map.put(info.getName(), info.getCode());
+        if(type == BlockType.Concept || type == BlockType.Style){
+            for (StockInfo info : allStocks) {
+                if(info.getCode().startsWith("88")){
+                    map.put(info.getName(), info.getCode());
+                }
+            }
+        }else if(type == BlockType.Index){
+            //指数要留下指数,0开头
+            for (StockInfo info : allStocks) {
+                if(info.getCode().startsWith("88") || (info.getCode().startsWith("0") && info.getMarket()== Market.sh
+                        || info.getCode().startsWith("399")
+                )){
+                    map.put(info.getName(), info.getCode());
+                }
+            }
+
         }
+
         for (BlockStock stock : stocks) {
             String code = map.get(stock.getName());
             if (code == null) {

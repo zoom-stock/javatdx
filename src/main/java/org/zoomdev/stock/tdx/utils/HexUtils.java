@@ -46,7 +46,7 @@ public class HexUtils {
             stream.write(value & 0xff);
             stream.write((value & 0xff00) >> 8);
             stream.write((value & 0xff0000) >> 16);
-            stream.write((value & 0xff000000) >> 32);
+            stream.write((value & 0xff000000) >> 24);
         } catch (IOException e) {
             e.printStackTrace();
         }

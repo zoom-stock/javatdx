@@ -136,12 +136,15 @@ public class TestSocketClient extends TestCase {
         Collection<BlockStock> stocks = client.getBlockInfo(BlockType.TdxIndustry);
         System.out.println(stocks);
 
+        System.out.println("正在获取概念=============");
         stocks = client.getBlockInfo(BlockType.Concept);
         System.out.println(stocks);
 
+        System.out.println("正在获取指数=============");
         stocks = client.getBlockInfo(BlockType.Index);
         System.out.println(stocks);
 
+        System.out.println("正在获取风格=============");
         stocks = client.getBlockInfo(BlockType.Style);
         System.out.println(stocks);
     }
