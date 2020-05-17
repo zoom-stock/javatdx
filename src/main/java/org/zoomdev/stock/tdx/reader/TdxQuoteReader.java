@@ -71,9 +71,22 @@ public class TdxQuoteReader {
 
     public static Quote parseForMin(DataInputStream is) throws IOException {
         int time = is.readShort();
-        int year = (time / 2048) + 2004;
-        int month = ((time % 2048) / 100);
-        int day = ((time % 2048) % 100);
+        int year;
+        int month;
+        int day;
+
+        if((0x8000 & time) == 0x8000){
+            time = time - 0x8000;
+            year = 2004-(time /2048) ;
+            month = time % 2048 / 100;
+            day = time % 2048 % 100;
+        }else{
+            year = (time /2048) + 2004;
+            month = time % 2048 / 100;
+            day = time % 2048 % 100;
+        }
+
+
         int minute = is.readShort();
         int hour = minute / 60;
         minute = minute % 60;
